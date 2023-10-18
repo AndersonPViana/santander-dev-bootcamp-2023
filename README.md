@@ -6,7 +6,7 @@ Java RESTful API criada para Santander Dev Bootcamp
 ```mermaid
 classDiagram
   class User {
-    -name: string
+    -name: String
     -account: Account
     -features: Feature[]
     -card: Card
@@ -14,25 +14,25 @@ classDiagram
   }
 
   class Account {
-    -number: string
-    -agency: string
-    -balance: BigDecimal
-    -limit: BigDecimal
+    -number: String
+    -agency: String
+    -balance: Number
+    -limit: Number
   }
 
   class Feature {
-    -icon: string
-    -description: string
+    -icon: String
+    -description: String
   }
 
   class Card {
-    -number: string
-    -limit: BigDecimal
+    -number: String
+    -limit: Number
   }
 
   class News {
-    -icon: string
-    -description: string
+    -icon: String
+    -description: String
   }
 
   User "1" *-- "1" Account
