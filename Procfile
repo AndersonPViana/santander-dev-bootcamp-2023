@@ -1,0 +1,1 @@
+web: java -jar target/santander-dev-bootcamp-2023-0.0.1-SNAPSHOT.jar
