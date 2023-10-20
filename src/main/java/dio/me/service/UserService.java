@@ -2,8 +2,6 @@ package dio.me.service;
 
 import dio.me.domain.model.User;
 
-public interface UserService {
-    User findById(Integer id);
+public interface UserService extends CrudService<Integer, User> {
 
-    void create(User user);
 }
