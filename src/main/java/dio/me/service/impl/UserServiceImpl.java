@@ -17,6 +17,8 @@ import static java.util.Optional.ofNullable;
 @Service
 public class UserServiceImpl implements UserService {
 
+    private static final Long UNCHANGEABLE_USER_ID = 1L;
+
     @Autowired
     private UserRepository repository;
 
@@ -39,6 +41,8 @@ public class UserServiceImpl implements UserService {
         ofNullable(userToCreate).orElseThrow(() -> new BusinessException("User to create must not be null."));
         ofNullable(userToCreate.getAccount()).orElseThrow(() -> new BusinessException("User account must not be null"));
         ofNullable(userToCreate.getCard().getNumber()).orElseThrow(() -> new BusinessException("User card must not be null"));
+        this.validateChangeableId(userToCreate.getId(), "created");
+
         if(repository.existsByAccountNumber(userToCreate.getAccount().getNumber())) {
             throw new IllegalArgumentException("This Account number already exists");
         }
@@ -50,6 +54,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     public User update(Integer id, User userToUpdate) {
+        this.validateChangeableId(id, "updated");
         User userUpdate = this.findById(id);
 
         userUpdate.setName(userToUpdate.getName());
@@ -63,7 +68,14 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     public void deletar(Integer id) {
+        this.validateChangeableId(id, "deleted");
         User userDelete = this.findById(id);
         repository.delete(userDelete);
+    }
+
+    private void validateChangeableId(Integer id, String operation) {
+        if (UNCHANGEABLE_USER_ID.equals(id)) {
+            throw new BusinessException("User with ID %d can not be %s.".formatted(UNCHANGEABLE_USER_ID, operation));
+        }
     }
 }
